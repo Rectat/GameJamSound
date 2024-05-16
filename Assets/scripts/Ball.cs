@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class Ball : MonoBehaviour
 {
@@ -30,6 +31,11 @@ public class Ball : MonoBehaviour
     public bool pdl2MovingLeft = false;
     public bool pdl2MovingRight = false;
     public GameObject ball; // ball placeholder.
+
+    // audio variables
+    public AudioSource MyAudio;
+    public AudioClip[] myAudioClips;
+    public AudioClip damageClip;
 
     // declare int to hold lives:
     public int lives = 3; // player gets three retries before game over.
@@ -205,6 +211,7 @@ public class Ball : MonoBehaviour
                 }
                 ball.transform.Translate(movementAmountX, -32, 0);
                 startDirection = 1;
+
             }
             else
             {
@@ -220,6 +227,9 @@ public class Ball : MonoBehaviour
                 ball.transform.Translate(movementAmountX, 32, 0);
                 startDirection = 0;
             }
+            //Get Random Audio Clip and then play it
+            AudioClip randomClip = myAudioClips[UnityEngine.Random.Range(0, myAudioClips.Length)];
+            MyAudio.PlayOneShot(randomClip);
         }
         if (ballCol.IsTouching(pdl2Col))
         {
@@ -251,6 +261,9 @@ public class Ball : MonoBehaviour
                 ball.transform.Translate(movementAmountX, 32, 0);
                 startDirection = 0;
             }
+            //Get Random Audio Clip and then play it
+            AudioClip randomClip = myAudioClips[UnityEngine.Random.Range(0, myAudioClips.Length)];
+            MyAudio.PlayOneShot(randomClip);
         }
 
         // bounce off of the edges of the screen:
@@ -276,7 +289,7 @@ public class Ball : MonoBehaviour
             // lose a life:
             lives -= 1;
             Debug.Log("movementEnabled: " + movementEnabled);
-
+            MyAudio.PlayOneShot(damageClip);
             // fix the bug where your lives get reduced by 2.
             //lives += 1;
         }
@@ -294,11 +307,12 @@ public class Ball : MonoBehaviour
             // lose a life:
             lives -= 1;
             Debug.Log("movementEnabled: "+movementEnabled);
+            MyAudio.PlayOneShot(damageClip);
 
             // fix the bug where your lives get reduced by 2.
             //lives += 1;
 
-            
+
 
         }
 
